@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Scene Assignment (Fractals)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body>
+<font size="3" face="Arial">
+
+<h1><u>Scene Assignment (Fractals)</h1></u>
+
+<p>The aim of this program is to display different fractals based on the user's
+ choice.  The user is able to easily navigate around the generated images using
+ the mouse.
+</p>
+
+<h2>Analysis</h2>
+
+<p>When the program is run, a popup box with instructions is displayed, from 
+which the user selects a fractal to display.  
+</p>
+
+<p>If the user zooms in too far the fractal may lose resolution because of the 
+limitations of using doubles.  When zooming in on particularly detailed areas 
+the program may also slow down slightly.</p>
+
+<h2>Design</h2>
+
+<p>The program is reasonably small and only requires three components, which we 
+have called Fractal, MainWindow and Scene.  We designed Fractal independently 
+of the other two (GUI) classes so that the maths could be tested prior to 
+worrying about graphics.</p>
+
+<p><b>Fractal</b> deals with the maths of the program and choosing the colour
+of each pixel accordingly.</p>
+
+<p><b>MainWindow</b> plots the images on screen, using data from Fractal. It 
+also deals with listening for mouse clicks and key presses, and creating the 
+popup box when necessary.</p>
+
+<p><b>Scene</b> creates the main window, and initialises the program.</p>
+
+<p>The fractal is plotted by iterating the absolute value of a point on the 
+complex plane, up to an iteration limit.  If the absolute value remains below 2, 
+then the point is within the set of the chosen fractal and is black.  Otherwise
+it is coloured by how many iterations were applied before the absolute value 
+reached the limit. The colouring of all the points displays the fractal.</p>
+
+<h2>Implementation</h2>
+
+<p>The program is written in Java, and is implemented as three classes, Fractal
+ containing 2 methods (plus testing methods), MainWindow containing 4 methods 
+ and Scene containing 2 methods.  
+
+<p>In Scene the <code>makeGUI</code> method creates a JFrame, and a MainWindow 
+object to store the BufferedImage in.  The <code>main</code> method calls
+ <code>makeGUI</code> to run the program.</p>
+ 
+<p>In MainWindow, the constructor creates mouse and key listeners to listen 
+for new events, and call <code>draw</code> accordingly. The 
+<code>draw</code> method converts screen co-ordinates to fractal co-ordinates,
+gets the colours from the <code>iterate</code> method in the Fractal class and
+sets every pixel to its corresponding colour.  The <code>popup</code> method 
+creates the popup menu for the user to choose fractals and to display 
+instructions on how to use the program.  <code>getPreferredSize</code> is a 
+method to set the size of the window that displays the fractal, whilst the 
+<code>paintComponent</code> method from JPanel is overridden to enable custom 
+graphics drawing using a BufferedImage.</p>
+
+<p>Fractal contains an array or colours, with each colour corresponding to a 
+specific number of iterations applied to a point. The array is filled and 
+colours are chosen in the <code>colorize</code> method, using the HSB colour 
+model. The <code>iterate</code> method iterates a formula (depending on the 
+fractal chosen) on a point to determine its colour. </p>
+
+<h2>Testing</h2>
+
+<p>The two graphical classes had to be manually tested to check for and 
+eliminate bugs. However, since the Fractal class was written first, a few basic 
+internal tests for the Mandelbrot set were included, so it could be checked
+without the other classes.  These test simply iterated a specific point known 
+to be within the set, and checked that the colour returned was black.</p>
+
+<h2>Appendix</h2>
+
+<p>For the interest of the user, the iterative formulae used for the different 
+types of fractals are shown below.  Note that the "Fish" fractal was discovered 
+by accident following a bug in the code, but we decided its unique shape made it
+worthwhile to keep.
+<br>
+<ul>
+
+<li><i>Mandelbrot: z<sub>n+1</sub> = z<sub>n</sub><sup>2</sup> + c
+<li>Quartic Mandelbrot: z<sub>n+1</sub> = z<sub>n</sub><sup>4</sup> + c
+<li>Mandelbar: z<sub>n+1</sub> = (z*)<sup>2</sup> + c
+<li>Quartic Mandelbar: z<sub>n+1</sub> = (z*)<sup>4</sup> + c
+<li>Julia: z<sub>n+1</sub> = z<sub>n</sub><sup>2</sup> + c
+<li>Fish: z<sub>n+1</sub> = z<sub>n</sub><sup>4</sup> + 
+8 x Im(z<sub>n</sub>)(Re(z<sub>n</sub>))<sup>3</sup> 
+(3 x Im(z<sub>n</sub><sub>n</sub>)<sup>3</sup> - 
+Im(z<sub>n</sub><sub>n</sub>)) + c
+<li>Burning Ship: z<sub>n+1</sub> = (|Re(z<sub>n</sub>)| + 
+|Im(z<sub>n</sub>)|i)<sup>2</sup> + c </i></li>
+
+</ul>
+<p>Below are two screenshots from the program, taken from the Burning Ship and 
+Quartic Mandelbar fractals, respectively.</p>
+
+<br>
+<img src = "frac1.png" align = "top left" alt = "Burning Ship fractal" 
+width = "500" height = "500">
+<img src = "frac2.png" align = "top right" alt = "Quartic Mandelbar fractal"
+width = "500" height = "500">
+<br>
+<font size="2" face="Arial">
+<p>Melissa Weaver, mw7289 and Peter Scholl, ps7830</p>
+
+</font>
+</body>
+</html>
